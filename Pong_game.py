@@ -76,7 +76,7 @@ pen.color("white")
 pen.penup()
 pen.hideturtle()
 pen.goto(0, 260)
-pen.write("Player A: {} Player B: {}".format(score_a, score_b), align="center", font=("Courier", 24, "normal"))
+pen.write("Player A: {}      Player B: {}".format(score_a, score_b), align="center", font=("Courier", 24, "normal"))
 
 
 
@@ -101,6 +101,11 @@ def paddle_b_down():
     y -= 20
     paddle_b.sety(y)
 
+def score_render():
+    pen.clear()     # First do this in order to clear the previous number in the score area.
+    # Next func. renders (updates) the score for each player whenever either paddle_a or paddle_b scores one point.
+    pen.write("Player A: {}      Player B: {}".format(score_a, score_b), align="center", font=("Courier", 24, "normal"))
+
 
 
 # Keyboard binding
@@ -110,6 +115,7 @@ wn.onkeypress(paddle_a_down, "s")
 
 wn.onkeypress(paddle_b_up, "Up")     # When the users presses 'Up', call the function paddle_b_up()
 wn.onkeypress(paddle_b_down, "Down")
+
 
 
 
@@ -139,10 +145,10 @@ while True:
         ball.goto(0, 0)
         ball.dx *= -1
         score_a += 1
-        # TODO Mejorar para que detecte este archivo.
+        
         winsound.PlaySound("Missed.wav", winsound.SND_ASYNC) # Plays a sound when the ball does not touch the right paddle
-        pen.clear()
-        pen.write("Player A: {} Player B: {}".format(score_a, score_b), align="center", font=("Courier", 24, "normal"))
+        score_render()  # Calls the function to render (update) the score
+        
 
 
     # (Ball) Left border
@@ -151,9 +157,7 @@ while True:
         ball.dx *= -1
         score_b += 1
         winsound.PlaySound("Missed.wav", winsound.SND_ASYNC) # Plays a sound when the ball does not touch the left paddle
-        pen.clear()
-        pen.write("Player A: {} Player B: {}".format(score_a, score_b), align="center", font=("Courier", 24, "normal"))
-
+        score_render()  # Calls the function to render (update) the score
 
 
     # (Paddle 'A') Top border
@@ -180,10 +184,10 @@ while True:
     if (ball.xcor() < -340 and ball.xcor() > -350) and (ball.ycor() < paddle_a.ycor() + 40 and ball.ycor() > paddle_a.ycor() - 40):
         ball.setx(-340)
         ball.dx *= -1
-        winsound.PlaySound("PlayerA.wav", winsound.SND_ASYNC)   # Plays a sound
+        winsound.PlaySound("Player_a_sound.wav", winsound.SND_ASYNC)   # Plays sound
 
     # Paddle 'B':
     if (ball.xcor() > 340 and ball.xcor() < 350) and (ball.ycor() < paddle_b.ycor() + 40 and ball.ycor() > paddle_b.ycor() - 40):
         ball.setx(340)
         ball.dx *= -1
-        winsound.PlaySound("PlayerB.wav", winsound.SND_ASYNC)   # Plays a sound
+        winsound.PlaySound("Player_b_sound.wav", winsound.SND_ASYNC)   # Plays sound
